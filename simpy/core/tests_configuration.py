@@ -1,5 +1,5 @@
 from .base_function import read_enum, build_function_input_dict
-from .result.container import ResultContainer, Result
+from simpy.core.result.container import ResultContainer, Result 
 
 
 class TestConfiguration(object):

@@ -1,6 +1,6 @@
 import inspect
 
-
+ 
 def build_function_input_dict(input_function, param_dict):
     if not callable(input_function):
         raise Exception('input must be a function')
@@ -26,4 +26,4 @@ def read_enum(input_enum, config_dict):
     try:
         return [input_enum[e] for e in enum_list]
     except KeyError:
-        raise Exception('input to enum cant be found:' + input_value)
+        raise Exception('input to enum cant be found')

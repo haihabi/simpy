@@ -1,5 +1,5 @@
 import unittest
-from .tutils import get_current_folder_path
+from simpy.tests import get_current_folder_path
 import os
 from simpy.core.xml.xml_read import read_xml
 
