@@ -71,7 +71,10 @@ class TestsRunner(object):
                 self.current += 1
                 if self.current >= self.test_list.__len__():
                     raise StopIteration
-
+    
+    next = __next__  # Python 2
+    
+    
     def get_global_param(self, param_name):
         return self.global_param.get(param_name)
 
