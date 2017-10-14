@@ -1,7 +1,7 @@
 import unittest
 import os
 import simpy
-from simpy.tests import get_current_folder_path
+from simpy.tests.tutils import get_current_folder_path
 
 class MyTestCase(unittest.TestCase):
     def test_iter_loop(self):

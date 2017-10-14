@@ -1,5 +1,5 @@
 import unittest
-from simpy.tests import get_current_folder_path
+from simpy.tests.tutils import get_current_folder_path
 import os
 import simpy
 from enum import Enum
