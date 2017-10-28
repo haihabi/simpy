@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<sim_cfg>
+    <global_params>
+    </global_params>
+    <parameter_configs>
+     
+        <param_cfg name="test_a">
+        	<param name="a" value="1" type="float"></param>
+        	<param name="b" value="2" type="float"></param>
+        	<param name="c" value="3" type="float"></param>
+        </param_cfg>
+    </parameter_configs>
+    <tests>
+        <test name="bla_0" enable="True" param_cfg="test_a">
+        	<param name="d" value="2.34" type="float"></param>
+        </test>
+        <test name="bla_1" enable="True" param_cfg="test_a">
+        	<param name="d" value="3.2" type="float"></param>
+        </test>
+    </tests>
+</sim_cfg>
+
+
+
