@@ -22,7 +22,7 @@ def build_function_input_dict(input_function, param_dict):
 def read_enum(input_enum, config_dict):
     enum_list = [k for k, e in config_dict.items() if e == input_enum.__name__]
     if enum_list.__len__() == 0:
-        raise Exception('cant find enum value')
+        return []
     try:
         return [input_enum[e] for e in enum_list]
     except KeyError:

@@ -7,7 +7,7 @@ class Result(object):
             raise Exception('result args must be even number')
         else:
             result = dict()
-            for i in range(round(args.__len__() / 2)):
+            for i in range(round(args.__len__())):
                 if i % 2 == 0:
                     name = args[i]
                     if not isinstance(name, str):
@@ -47,13 +47,8 @@ class ResultContainer(object):
     def add_result(self, result):
         if not isinstance(result, Result):
             raise Exception('input must be of type result')
-        if self.is_empty():
-            self.test_result.append(result)
-        else:
-            if self.test_result[0].has_same_param(result):
-                self.test_result.append(result)
-            else:
-                raise Exception('test result must have the same params')
+        self.test_result.append(result)
+
 
     def __iter__(self):
         return self
