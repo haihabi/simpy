@@ -19,6 +19,11 @@
     <tests>
         <test name="blabla" enable="False" param_cfg="lstm_static"></test>
         <test name="blabla23" enable="True" param_cfg="lstm_static"></test>
+        <test_group enable="True">
+        	<test name="blabla231" enable="False" param_cfg="lstm_static"></test>
+        	<test name="blabla232" enable="False" param_cfg="lstm_static"></test>
+        	<test name="blabla233" enable="False" param_cfg="lstm_static"></test>
+        </test_group>
     </tests>
 </sim_cfg>
 

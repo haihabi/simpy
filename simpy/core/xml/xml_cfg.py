@@ -103,14 +103,33 @@ def __read_tests__(xml_tree):
     if sub_tree.__len__() == 0:
         raise Exception('simulation must have single tests config')
     elif sub_tree.__len__() == 1:
-        return [__read_single_test__(t) for t in sub_tree[0].get_sub_trees('test')]
+        return [__read_single_test__(t) for t in sub_tree[0].get_sub_trees('test') if __read_single_test__(t).enable]
     else:
         raise Exception('simulation can have only a single tests config')
 
 
+def __read_test_groups__(xml_tree):
+    sub_tree = xml_tree.get_sub_trees('tests')
+    if sub_tree.__len__() == 0:
+        raise Exception('simulation must have single tests config')
+    elif sub_tree.__len__() == 1:
+        output_list = []
+        for tg in sub_tree[0].get_sub_trees('test_group'):
+            enable_group = __read_boolean_param__(tg.get_tree_attr_by_key('enable'))
+            for t in tg.get_sub_trees('test'):
+                test = __read_single_test__(t)
+                if enable_group:
+                    test.enable_test()
+                if test.enable:
+                    output_list.append(test)
+        return output_list
+    else:
+        raise Exception('simulation can have only a single tests config')
 def read_from_xml(xml_file_path):
     tree = read_xml(xml_file_path)
     global_param = __read_global_params__(tree)
     param_configs = __read_param_cfg__(tree)
+    
     test_list = __read_tests__(tree)
+    [test_list.append(t) for t in __read_test_groups__(tree)]
     return TestsRunner(test_list, global_param, param_configs)
