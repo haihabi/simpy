@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<sim_cfg>
+    <global_params>
+        <param name="cross_validation_k" value="40" type="int"></param>
+    </global_params>
+    <parameter_configs>
+        <param_cfg name="lstm_static">
+            <param name="num_nodes_lstm_model_1" value="128" type="int"></param>
+            <param name="num_nodes_lstm_model_3" value="32" type="int"></param>
+            <param name="loss_q" value="1.812" type="float"></param>
+            <param name="decay_steps" value="100" type="int"></param>
+            <param name="decay_rate" value="0.99" type="float"></param>
+            <param name="gamma_auto" value="0.0032" type="float"></param>
+        </param_cfg>
+        <param_cfg name="lstm_static_link">
+            <link_param name="lstm_static"></link_param>
+        </param_cfg>
+    </parameter_configs>
+    <tests>
+        <test name="blabla" enable="False" param_cfg="lstm_static"></test>
+        <test name="blabla23" enable="True" param_cfg="lstm_static"></test>>
+    </tests>
+</sim_cfg>
+
+
+
