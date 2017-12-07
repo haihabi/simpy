@@ -12,7 +12,7 @@ class TestConfiguration(object):
         self.overwrite = overwrite
     
     def enable_test(self):
-        self.enable=True
+        self.enable = True
 
 class Test(object):
     def __init__(self, test_config, param_config):
@@ -68,6 +68,7 @@ class TestsRunner(object):
                 if self.test_list[self.current].enable:
                     tc = self.test_list[self.current]
                     t = Test(tc, self.param_configurations.get(tc.config_name))
+                    print("Running Test:" + t.get_name())
                     self.current += 1
                     return t
                 self.current += 1
@@ -86,3 +87,6 @@ class TestsRunner(object):
     def run_function_from_global(self, input_function):
         function_inputs = build_function_input_dict(input_function, self.global_param)
         return input_function(**function_inputs)
+    
+    def generate_test_iterator(self):
+        return TestsRunner(self.test_list, self.global_param, self.param_configurations)

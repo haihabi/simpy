@@ -33,9 +33,9 @@ class Result(object):
 
 
 class ResultContainer(object):
-    def __init__(self, global_params):
+    def __init__(self, global_params, test_result=[]):
         self.global_params = global_params
-        self.test_result = []
+        self.test_result = test_result
         self.current = 0
 
     def clear(self):
@@ -48,7 +48,6 @@ class ResultContainer(object):
         if not isinstance(result, Result):
             raise Exception('input must be of type result')
         self.test_result.append(result)
-
 
     def __iter__(self):
         return self
@@ -63,3 +62,6 @@ class ResultContainer(object):
 
     def reset_iterator(self):
         self.current = 0
+
+    def recreate_iterator(self):
+        return ResultContainer(self.global_params, self.test_result)
