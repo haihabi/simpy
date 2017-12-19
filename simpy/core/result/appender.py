@@ -1,10 +1,11 @@
 class ResultAppender(object):
-    def __init__(self, result_list, record_function_dict, result_function_dict):
+    def __init__(self, result_list, record_function_dict, result_function_dict, result_not2print=None):
         self.result_list = result_list
         self.result_dict = {r: [] for r in self.result_list}  # init result dict
         self.record_dict = {r: [] for r in self.result_list}  # init result dict
         self.record_function_dict = record_function_dict
         self.result_function_dict = result_function_dict
+        self.rn2p = result_not2print
 
     def update_result(self, result_dict):
         for k, r in result_dict.items():
@@ -30,3 +31,10 @@ class ResultAppender(object):
             return self.record_dict
         else:
             return self.record_dict.get(record_name)
+
+    def print_record(self):
+        str_output = ''
+        for k, v in self.get_record().items():
+            if self.rn2p is None or k not in self.rn2p:
+                str_output = str_output + "\n" + k + ':' + str(v[-1])
+        print(str_output)
