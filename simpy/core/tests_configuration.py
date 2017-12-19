@@ -1,5 +1,5 @@
 from .base_function import read_enum, build_function_input_dict
-from simpy.core.result.container import ResultContainer, Result 
+from simpy.core.result.container import ResultContainer, Result
 
 
 class TestConfiguration(object):
@@ -10,9 +10,10 @@ class TestConfiguration(object):
         self.enable = enable
         self.config_name = config_name
         self.overwrite = overwrite
-    
+
     def enable_test(self):
         self.enable = True
+
 
 class Test(object):
     def __init__(self, test_config, param_config):
@@ -74,10 +75,9 @@ class TestsRunner(object):
                 self.current += 1
                 if self.current >= self.test_list.__len__():
                     raise StopIteration
-    
+
     next = __next__  # Python 2
-    
-    
+
     def get_global_param(self, param_name):
         return self.global_param.get(param_name)
 
@@ -87,6 +87,6 @@ class TestsRunner(object):
     def run_function_from_global(self, input_function):
         function_inputs = build_function_input_dict(input_function, self.global_param)
         return input_function(**function_inputs)
-    
+
     def generate_test_iterator(self):
         return TestsRunner(self.test_list, self.global_param, self.param_configurations)

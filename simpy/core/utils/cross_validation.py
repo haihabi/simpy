@@ -1,7 +1,6 @@
 import simpy
 import numpy as np
 
-
 class CrossValidation(object):
     def __init__(self, data, target, result_merge_function, k_size=5):
 
@@ -24,7 +23,7 @@ class CrossValidation(object):
     def _check_input(data_input, is_list):
         if not (isinstance(data_input, list) or isinstance(data_input, np.ndarray)):
             raise Exception('input data must be of type list or numpy ndarray')
-        if is_list and np.any(np.asarray([d.shape[0] for d in data_input]) != data_input.shape[0]):
+        if is_list and np.any(np.asarray([d.shape[0] for d in data_input]) != data_input[0].shape[0]):
             raise Exception('All inputs in a list must have the same size')
 
     def _cross_check(self):
@@ -55,23 +54,24 @@ class CrossValidation(object):
         else:
             return [d[index, :] for d in data]
 
+    def get_fold_indexer(self):
+        return range(self.k_size)
+
     def set_k_size(self, k_size):
         return CrossValidation(self.data, self.target, self.rmf, k_size)
 
     def get_fold(self):
-        self.timer.start_timer()
         print("Running Folder" + str(self.fi))
         index_full = np.asarray(range(self.size))
-        index_test = np.asarray(range(self.fs * self.fi, self.ds * (self.fi + 1)))
-        index_train = np.where(np.logical_or(index_full > max(index_test), index_full < min(index_test)))
+        index_test = np.asarray(range(self.fs * self.fi, self.fs * (self.fi + 1)))
+        index_train = np.where(np.logical_or(index_full > max(index_test), index_full < min(index_test)))[0]
 
         data_training = self.get_data_slice(self.data, self.is_data_list, index_train)
         data_validation = self.get_data_slice(self.data, self.is_data_list, index_test)
         target_training = self.get_data_slice(self.target, self.is_target_list, index_train)
         target_validation = self.get_data_slice(self.target, self.is_target_list, index_test)
 
-        return data_training, target_training, \
-               data_validation, target_validation
+        return data_training, target_training, data_validation, target_validation
 
     def update_result(self, ra):
         assert isinstance(ra, simpy.ResultAppender)
@@ -80,7 +80,7 @@ class CrossValidation(object):
     def merge_result(self):
         return {k: self.rmf.get(k)(l) for k, l in self.crd.items()}
 
-    def plot_result(self):
+    def plot_result(self,plot_cfg):
         pass
 
     def get_result_dict(self):

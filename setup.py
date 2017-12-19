@@ -8,6 +8,7 @@ setup(name='simpy',
       author='Hai Victor Habi',
       install_requires=[
           'numpy',
+          'matplotlib',
       ],
       packages=find_packages(exclude=['tests', 'example']),
       )
