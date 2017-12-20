@@ -31,6 +31,9 @@ class Result(object):
     def get_test_name(self):
         return self.test_case.get_name()
 
+    def get_legend(self, test_cases):
+        pass
+
 
 class ResultContainer(object):
     def __init__(self, global_params, test_result=[]):
@@ -65,3 +68,6 @@ class ResultContainer(object):
 
     def recreate_iterator(self):
         return ResultContainer(self.global_params, self.test_result)
+
+    def get_test_cases(self):
+        return [i.test_case for i in self.test_result]

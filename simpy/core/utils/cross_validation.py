@@ -1,6 +1,7 @@
 import simpy
 import numpy as np
 
+
 class CrossValidation(object):
     def __init__(self, data, target, result_merge_function, k_size=5):
 
@@ -80,8 +81,6 @@ class CrossValidation(object):
     def merge_result(self):
         return {k: self.rmf.get(k)(l) for k, l in self.crd.items()}
 
-    def plot_result(self,plot_cfg):
-        pass
-
-    def get_result_dict(self):
-        pass
+    def plot_result(self, plot_cfg):
+        assert isinstance(plot_cfg, simpy.PlotConfiguration)
+        plot_cfg.plot_result(self.merge_result())
