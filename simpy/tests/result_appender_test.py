@@ -7,7 +7,7 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
         n_epoch = 10
         n_batch = 100
-        ra = simpy.ResultAppender(['d', 'l'], {'d': simpy.data_concat, 'l': simpy.data_concat})
+        ra = simpy.ResultAppender(['d', 'l'], {'d': simpy.data_concat, 'l': simpy.data_concat}, {'d': simpy.data_single, 'l': simpy.data_mean})
         for _ in range(n_epoch):
             for _ in range(n_batch):
                 d = np.random.randn(16, 100)
