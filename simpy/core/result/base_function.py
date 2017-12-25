@@ -22,4 +22,4 @@ def data_single(result_a):
 
 
 def data_stack_mean(result_a):
-    return data_mean(data_stack(result_a))
+    return np.mean(data_stack(result_a),axis=0)

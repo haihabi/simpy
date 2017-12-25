@@ -1,9 +1,12 @@
+import simpy
+
+
 class Result(object):
     def __init__(self, test_case, *args):
         self.test_case = test_case
-        if args.__len__() == 0:
+        if len(args) == 0:
             raise Exception('result cant be empty args')
-        elif args.__len__() % 2 != 0:
+        elif len(args) % 2 != 0:
             raise Exception('result args must be even number')
         else:
             result = dict()
@@ -31,8 +34,8 @@ class Result(object):
     def get_test_name(self):
         return self.test_case.get_name()
 
-    def get_legend(self, test_cases):
-        pass
+    def get_result_dict(self):
+        return self.result
 
 
 class ResultContainer(object):
@@ -71,3 +74,13 @@ class ResultContainer(object):
 
     def get_test_cases(self):
         return [i.test_case for i in self.test_result]
+
+    def plot_result(self, plot_cfg):
+        assert isinstance(plot_cfg, simpy.PlotConfiguration)
+        result_dict_list = []
+        test_list = []
+        for r in self.recreate_iterator():
+            result_dict_list.append(r.get_result_dict())
+            test_list.append(r.get_test_name())
+
+        plot_cfg.plot_multiple_result(result_dict_list, test_list, True)

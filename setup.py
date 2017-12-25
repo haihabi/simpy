@@ -9,7 +9,6 @@ setup(name='simpy',
       install_requires=[
           'numpy',
           'matplotlib',
-          'enum',
       ],
       packages=find_packages(exclude=['tests', 'example']),
       )

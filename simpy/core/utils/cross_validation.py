@@ -15,10 +15,27 @@ class CrossValidation(object):
         self.target = target
 
         self.size = self._cross_check()
+
         self.k_size = k_size
         self.crd = {k: [] for k in self.rmf.keys()}  # current result dict
         self.fs = self._set_k_size(self.k_size, self.size)  # fold size
         self.fi = 0  # fold index
+        self._data_shuffle()
+
+    def _data_shuffle(self):
+        index = simpy.data_sets.data_shuffle_index(self.size)
+        self.data = self._shuffle_single(self.data, index, self.is_data_list)
+        self.target = self._shuffle_single(self.target, index, self.is_target_list)
+
+    @staticmethod
+    def _shuffle_single(data, index, is_list):
+        data_new = data.copy()
+        if is_list:
+            for i, d in enumerate(data):
+                data_new[i] = d[index, :]
+        else:
+            data_new = data[index, :]
+        return data_new
 
     @staticmethod
     def _check_input(data_input, is_list):
@@ -84,3 +101,8 @@ class CrossValidation(object):
     def plot_result(self, plot_cfg):
         assert isinstance(plot_cfg, simpy.PlotConfiguration)
         plot_cfg.plot_result(self.merge_result())
+
+    def get_result_key_value_per(self):
+        result = []
+        [result.extend([k, v]) for k, v in self.merge_result().items()]
+        return result
