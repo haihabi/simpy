@@ -35,6 +35,6 @@ class ResultAppender(object):
     def print_record(self):
         str_output = ''
         for k, v in self.get_record().items():
-            if self.rn2p is None or k not in self.rn2p:
+            if (self.rn2p is None or k not in self.rn2p) and len(v) > 0:
                 str_output = str_output + "\n" + k + ':' + str(v[-1])
         print(str_output)

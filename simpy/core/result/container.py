@@ -1,4 +1,5 @@
 import simpy
+import numpy as np
 
 
 class Result(object):
@@ -75,12 +76,31 @@ class ResultContainer(object):
     def get_test_cases(self):
         return [i.test_case for i in self.test_result]
 
-    def plot_result(self, plot_cfg):
-        assert isinstance(plot_cfg, simpy.PlotConfiguration)
+    def __build_result__(self):
         result_dict_list = []
         test_list = []
         for r in self.recreate_iterator():
             result_dict_list.append(r.get_result_dict())
             test_list.append(r.get_test_name())
+        return result_dict_list, test_list
 
-        plot_cfg.plot_multiple_result(result_dict_list, test_list, True)
+    def plot_result(self, plot_cfg_list):
+        assert isinstance(plot_cfg_list, list)
+        assert np.all([isinstance(plot_cfg, simpy.PlotConfiguration) for plot_cfg in plot_cfg_list])
+        result_dict_list, test_list = self.__build_result__()
+        [plot_cfg.plot_multiple_result(result_dict_list, test_list, True) for plot_cfg in plot_cfg_list]
+
+    def print_summary(self, data_post_processing):
+        result_dict_list, test_list = self.__build_result__()
+        output_str = self.summary_function(data_post_processing, result_dict_list, test_list)
+        print(output_str)
+
+    @staticmethod
+    def summary_function(data_post_processing, result_dict_list, test_list):
+        output_str = ''
+        for tn, rd in zip(test_list, result_dict_list):
+            output_str = output_str + tn + '[ '
+            for m, pf in data_post_processing.items():
+                output_str = output_str + m + ':' + str(pf(rd.get(m))) + ' '
+            output_str = output_str + ' ]' + "\n"
+        return output_str
