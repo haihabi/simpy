@@ -68,6 +68,8 @@ class TestsRunner(object):
             while True:
                 if self.test_list[self.current].enable:
                     tc = self.test_list[self.current]
+                    if self.param_configurations.get(tc.config_name) is None:
+                        raise Exception('cant find param config')
                     t = Test(tc, self.param_configurations.get(tc.config_name))
                     print("Running Test:" + t.get_name())
                     self.current += 1
