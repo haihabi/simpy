@@ -4,9 +4,18 @@ Created on Nov 6, 2017
 @author: haih
 '''
 import simpy
+import argparse
 
 
-class SimulationManger():
+class SimulationManger(object):
+    def __init__(self):
+        print("Starting Simulation:" + self.__class__.__name__)
+        parser = argparse.ArgumentParser(description='Simulation Manger')
+        parser.add_argument('xml_path', type=str, help='Simulation XML config file path')
+        self.args = parser.parse_args()
+        print("Loading simulation XML config:" + self.args.xml_path)
+        self.sc = SimulationManger.create(xml_path=self.args.xml_path)
+
     @classmethod
     def create(cls, xml_path):
         tr = simpy.read_from_xml(xml_path)
@@ -15,7 +24,7 @@ class SimulationManger():
     def run(self):
         raise NotImplemented
 
-    class Simulation():
+    class Simulation(object):
         def __init__(self, tr):
             self.tr = tr
             self.rc = self.tr.generate_result_container()

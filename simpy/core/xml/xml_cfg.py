@@ -58,7 +58,10 @@ def __read_single_param_cfg__(xml_tree, param_configs_dict):
         for lp in link_params:
             status = status and (param_configs_dict.get(__read_name__(lp)) is not None)
         if status:
-            param_cfg = param_configs_dict.get(__read_name__(lp)).copy()
+            param_cfg = dict()
+            for lp in link_params:
+                param_cfg.update({__read_name__(lp) + '.' + k: v for k, v in
+                                  param_configs_dict.get(__read_name__(lp)).items()})
             param_cfg.update(__params_reader__(xml_tree))
             return param_cfg, True
     return None, False
@@ -125,11 +128,13 @@ def __read_test_groups__(xml_tree):
         return output_list
     else:
         raise Exception('simulation can have only a single tests config')
+
+
 def read_from_xml(xml_file_path):
     tree = read_xml(xml_file_path)
     global_param = __read_global_params__(tree)
     param_configs = __read_param_cfg__(tree)
-    
+
     test_list = __read_tests__(tree)
     [test_list.append(t) for t in __read_test_groups__(tree)]
     return TestsRunner(test_list, global_param, param_configs)

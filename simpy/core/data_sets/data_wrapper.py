@@ -1,5 +1,5 @@
 import numpy as np
-from dataset.data import Data
+from .data import Data
 
 
 class DataWrapper(object):
