@@ -7,7 +7,7 @@ class DataWrapper(object):
         assert isinstance(data_set_list, list)
         for ds in data_set_list:
             assert isinstance(ds, Data)
-        data_size = np.unique([ds.get_data_size() for ds in data_set_list])
+        data_size = np.unique([ds.get_n_samples() for ds in data_set_list])
         assert len(data_size) == 1
         assert batch_size > 0
         self.n = data_size[0]
@@ -31,6 +31,7 @@ class DataWrapper(object):
 
     def __next__(self):  # Python 3: def __next__(self)
         if self.counter >= self.max_iteration:
+            self.reset_counter()
             raise StopIteration
         else:
             start_point = self.counter * self.batch_size
@@ -38,3 +39,6 @@ class DataWrapper(object):
             index = np.mod(np.linspace(start_point, start_point + self.batch_size - 1, self.batch_size).astype('int'),
                            self.n)
             return [ds.get_data(self.si[index]) for ds in self.dsl]
+
+    def get_data_size(self):
+        return [d.get_data_size() for d in self.dsl]
