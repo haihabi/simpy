@@ -84,16 +84,27 @@ class ResultContainer(object):
             test_list.append(r.get_test_name())
         return result_dict_list, test_list
 
-    def plot_result(self, plot_cfg_list):
+    def plot_result(self, plot_cfg_list, save=None):
+        """
+        This function get a list of plot configs and plot them on the same figure
+        :param plot_cfg_list:List of plot config
+        :param save:None or str of path
+        :return: Nothing
+        """
         assert isinstance(plot_cfg_list, list)
         assert np.all([isinstance(plot_cfg, simpy.PlotConfiguration) for plot_cfg in plot_cfg_list])
         result_dict_list, test_list = self.__build_result__()
-        [plot_cfg.plot_multiple_result(result_dict_list, test_list, True) for plot_cfg in plot_cfg_list]
+        [plot_cfg.plot_multiple_result(result_dict_list, test_list, True, save=save) for plot_cfg in plot_cfg_list]
 
-    def print_summary(self, data_post_processing):
+    def print_summary(self, data_post_processing, save=None):
         result_dict_list, test_list = self.__build_result__()
         output_str = self.summary_function(data_post_processing, result_dict_list, test_list)
         print(output_str)
+        if save is not None:
+            text_file = open(save, "w")
+            text_file.write(output_str)
+            text_file.close()
+            print("Saving summary to file:" + save)
 
     @staticmethod
     def summary_function(data_post_processing, result_dict_list, test_list):

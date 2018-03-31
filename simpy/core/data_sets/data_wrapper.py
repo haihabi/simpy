@@ -36,9 +36,12 @@ class DataWrapper(object):
         else:
             start_point = self.counter * self.batch_size
             self.counter += 1
-            index = np.mod(np.linspace(start_point, start_point + self.batch_size - 1, self.batch_size).astype('int'),
-                           self.n)
+            index = np.linspace(start_point, start_point + self.batch_size - 1, self.batch_size).astype('int')
+            index = index[index < self.n]
             return [ds.get_data(self.si[index]) for ds in self.dsl]
 
     def get_data_size(self):
         return [d.get_data_size() for d in self.dsl]
+
+    def change_shuffle_index(self, shuffle_index):
+        return DataWrapper(self.dsl, self.batch_size, self.si)
