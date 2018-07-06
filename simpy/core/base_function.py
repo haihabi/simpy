@@ -1,6 +1,6 @@
 import inspect
 
- 
+
 def build_function_input_dict(input_function, param_dict):
     if not callable(input_function):
         raise Exception('input must be a function')
