@@ -43,5 +43,17 @@ class DataWrapper(object):
     def get_data_size(self):
         return [d.get_data_size() for d in self.dsl]
 
+    def change_batch_size(self, batch_size):
+        return DataWrapper(self.dsl, batch_size, shuffle_index=self.si)
+
     def change_shuffle_index(self, shuffle_index):
         return DataWrapper(self.dsl, self.batch_size, self.si)
+
+    def split(self, split_size_list):
+        split_size = np.asarray(split_size_list) * self.n
+        split_size = np.insert(split_size, 0, 0)
+        cum_sum_split_list = np.cumsum(split_size).astype('int')
+        cum_sum_split_list[-1] = self.n
+        return [
+            DataWrapper([ds.reindex_data(self.si[cum_sum_split_list[i]:cum_sum_split_list[i + 1]]) for ds in self.dsl],
+                        self.batch_size) for i, _ in enumerate(cum_sum_split_list[:-1])]

@@ -5,7 +5,7 @@ class Data(object):
     def __init__(self, data):
         assert isinstance(data, np.ndarray)
         self.data = data
-        self.is_one_d=len(data.shape)
+        self.is_one_d = len(data.shape)
 
     def shuffle(self, index):
         return Data(self.data[index, :])
@@ -25,3 +25,6 @@ class Data(object):
         if len(self.data.shape) > 1:
             return self.data.shape[1:]
         return 1
+
+    def reindex_data(self, index):
+        return Data(self.get_data(index))
