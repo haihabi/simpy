@@ -7,3 +7,4 @@ from simpy.core.utils.cross_validation import CrossValidation
 from simpy.core.utils.plot_configuration import PlotConfiguration
 from simpy.core import data_sets
 from simpy.core.simulation.simulation_base_class import SimulationBase
+from simpy.core.utils.cross_validation_v2 import CrossValidationV2

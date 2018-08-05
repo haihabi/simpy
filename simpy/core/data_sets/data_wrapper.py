@@ -22,6 +22,9 @@ class DataWrapper(object):
     def reset_counter(self):
         self.counter = 0
 
+    def get_number_of_samples(self):
+        return len(self.si)
+
     def shuffle(self):
         np.random.shuffle(self.si)
         return DataWrapper(self.dsl, self.batch_size, self.si)
@@ -57,3 +60,6 @@ class DataWrapper(object):
         return [
             DataWrapper([ds.reindex_data(self.si[cum_sum_split_list[i]:cum_sum_split_list[i + 1]]) for ds in self.dsl],
                         self.batch_size) for i, _ in enumerate(cum_sum_split_list[:-1])]
+
+    def cycle_shift(self, shift_size):
+        return DataWrapper(self.dsl, self.batch_size, shuffle_index=np.roll(self.si, shift_size))

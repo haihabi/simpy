@@ -29,7 +29,7 @@ class PlotConfiguration(object):
         assert isinstance(result_dict, dict)
         self.plot_multiple_result([result_dict], [], False)
 
-    def plot_multiple_result(self, result_dict_list, tests_list, is_test_name=True,save=None):
+    def plot_multiple_result(self, result_dict_list, tests_list, is_test_name=True, save=None):
         assert isinstance(result_dict_list, list)
         assert isinstance(tests_list, list)
         for i, dn in enumerate(self.data_name):
@@ -59,6 +59,8 @@ class PlotConfiguration(object):
             plt.legend()
             plt.grid()
         if save is not None:
-            plt.savefig(save)
+            figure = plt.gcf()  # get current figure
+            figure.set_size_inches(12, 12)
+            plt.savefig(save, dpi=100)
         else:
             plt.show()
