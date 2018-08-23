@@ -1,5 +1,6 @@
 import simpy
 import numpy as np
+import pickle
 
 
 class Result(object):
@@ -115,3 +116,12 @@ class ResultContainer(object):
                 output_str = output_str + m + ':' + str(pf(rd.get(m))) + ' '
             output_str = output_str + ' ]' + "\n"
         return output_str
+
+    @staticmethod
+    def loader(file_path):
+        res = pickle.load(open(file_path, "rb"))
+        if not isinstance(res, ResultContainer): raise Exception('the loaded pickle is not a of type result container')
+        return res
+
+    def saver(self, file_path):
+        pickle.dump(self, open(file_path, "wb"))
