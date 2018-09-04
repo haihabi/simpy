@@ -28,3 +28,6 @@ class Data(object):
 
     def reindex_data(self, index):
         return Data(self.get_data(index))
+
+    def merge(self, input_data):
+        return Data(np.concatenate(self.data, input_data.data))

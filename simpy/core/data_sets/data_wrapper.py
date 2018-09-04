@@ -63,3 +63,8 @@ class DataWrapper(object):
 
     def cycle_shift(self, shift_size):
         return DataWrapper(self.dsl, self.batch_size, shuffle_index=np.roll(self.si, shift_size))
+
+    def merge(self, input_wrapper):
+        if len(self.dsl) != len(input_wrapper.dsl): raise Exception('cant merge wrapper with difference size')
+        dsl = [i.merge(j) for i, j in zip(self.dsl, input_wrapper.dsl)]
+        return DataWrapper(dsl, self.batch_size)

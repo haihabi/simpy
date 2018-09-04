@@ -1,6 +1,7 @@
 import simpy
 import numpy as np
 import pickle
+import os
 
 
 class Result(object):
@@ -85,7 +86,7 @@ class ResultContainer(object):
             test_list.append(r.get_test_name())
         return result_dict_list, test_list
 
-    def plot_result(self, plot_cfg_list, save=None):
+    def plot_result(self, plot_cfg_list, path_save=None):
         """
         This function get a list of plot configs and plot them on the same figure
         :param plot_cfg_list:List of plot config
@@ -95,7 +96,9 @@ class ResultContainer(object):
         assert isinstance(plot_cfg_list, list)
         assert np.all([isinstance(plot_cfg, simpy.PlotConfiguration) for plot_cfg in plot_cfg_list])
         result_dict_list, test_list = self.__build_result__()
-        [plot_cfg.plot_multiple_result(result_dict_list, test_list, True, save=save) for plot_cfg in plot_cfg_list]
+        [plot_cfg.plot_multiple_result(result_dict_list, test_list, True,
+                                       save=os.path.join(path_save, 'figure' + str(i) + '.png')) for i, plot_cfg in
+         enumerate(plot_cfg_list)]
 
     def print_summary(self, data_post_processing, save=None):
         result_dict_list, test_list = self.__build_result__()
