@@ -30,4 +30,4 @@ class Data(object):
         return Data(self.get_data(index))
 
     def merge(self, input_data):
-        return Data(np.concatenate(self.data, input_data.data))
+        return Data(np.concatenate([self.data, input_data.data], axis=0))

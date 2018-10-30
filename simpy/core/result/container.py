@@ -100,6 +100,17 @@ class ResultContainer(object):
                                        save=os.path.join(path_save, 'figure' + str(i) + '.png')) for i, plot_cfg in
          enumerate(plot_cfg_list)]
 
+    def plot_test_by_test(self, plot_cfg_list, path_save=None):
+        assert isinstance(plot_cfg_list, list)
+        assert np.all([isinstance(plot_cfg, simpy.PlotConfiguration) for plot_cfg in plot_cfg_list])
+        result_dict_list, test_list = self.__build_result__()
+        for rdl, tl in zip(result_dict_list, test_list):
+            test_base = os.path.join(path_save, tl)
+            os.mkdir(test_base)
+            [plot_cfg.plot_multiple_result([rdl], [tl], True,
+                                           save=os.path.join(test_base, 'figure' + str(i) + '.png')) for i, plot_cfg in
+             enumerate(plot_cfg_list)]
+
     def print_summary(self, data_post_processing, save=None):
         result_dict_list, test_list = self.__build_result__()
         output_str = self.summary_function(data_post_processing, result_dict_list, test_list)

@@ -6,6 +6,7 @@ class ResultAppender(object):
         self.result_list = result_list
         self.result_dict = {r: [] for r in self.result_list}  # init result dict
         self.record_dict = {r: [] for r in self.result_list}  # init result dict
+        self.manual_result = {}
         self.record_function_dict = record_function_dict
         self.result_function_dict = result_function_dict
         self.rn2p = result_not2print
@@ -45,6 +46,8 @@ class ResultAppender(object):
         if record_name is None:
             return self.record_dict
         else:
+            if self.manual_result.get(record_name) is not None:
+                return self.manual_result.get(record_name)
             return self.record_dict.get(record_name)
 
     def print_record(self):
@@ -53,3 +56,6 @@ class ResultAppender(object):
             if (self.rn2p is None or k not in self.rn2p) and len(v) > 0:
                 str_output = str_output + "\n" + k + ':' + str(v[-1])
         print(str_output)
+
+    def add_manual_result(self, result):
+        self.manual_result.update(result)
